@@ -1,0 +1,14 @@
+<div class="flexslider">
+  <ul class="slides">
+<?php foreach($this->getBanners() as $banner):?>
+    <li>
+        <a href="<?php echo $banner->getUrl() ?>">
+            <img src="<?php echo Mage::helper('ronisbtbanners/image')->init($banner, 'small_image',$banner->getImage())->keepFrame(FALSE)->resize(300, 200); ?>" width="300" height="200" alt="<?php $banner->getTitle()?>" title="<?php $banner->getTitle()?>">
+        </a>
+        <p class="flex-caption">Title: <?php echo $banner->getTitle()?> <br> 
+        						Url: <a href="<?php echo $banner->getUrl()?>"><?php echo $banner->getUrl()?></a>
+        </p>
+    </li>
+<?php endforeach;?>
+ </ul>
+</div>

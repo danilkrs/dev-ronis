@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<config>
+    <acl>
+        <resources>
+            <admin>
+                <children>
+                    <cms>
+                        <children>
+                            <ronisbtbanners module="ronisbtbanners">
+                                <title>Ronisbtbanners</title>
+                            </ronisbtbanners>
+                        </children>
+                    </cms>
+                </children>
+            </admin>
+        </resources>
+    </acl>
+    <menu>
+        <cms>
+            <children>
+                <ronisbtbanners module="ronisbtbanners">
+                    <title>Homepage Banners</title>
+                    <action>adminhtml/banners</action>
+                    <sort_order>1</sort_order>
+                </ronisbtbanners>
+            </children>
+        </cms>
+    </menu>
+</config>

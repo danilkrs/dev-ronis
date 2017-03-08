@@ -1,0 +1,8 @@
+<config>
+    <modules>
+        <Ronisbt_Banners>
+            <active>true</active>
+            <codePool>local</codePool>
+        </Ronisbt_Banners>
+    </modules>
+</config>
