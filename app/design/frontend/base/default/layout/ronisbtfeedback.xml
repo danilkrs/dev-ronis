@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<layout>
+    <ronisbtfeedback_index_index>
+        <reference name="head">
+          
+        </reference>
+        <reference name="content"> 
+        	<block name="ronisbtfeedback.contact" as="ronisbtfeedback" type="ronisbtfeedback/contact" template="ronisbt/feedback/contactform.phtml" />
+			<!--<block type="captcha/recaptcha" name="captcha" />-->		
+        </reference>
+    </ronisbtfeedback_index_index>
+</layout>

@@ -1,0 +1,34 @@
+<?xml version="1.0" ?>
+<config>
+    <modules>
+        <Ronisbt_Feedback>
+            <version>0.0.1</version>
+        </Ronisbt_Feedback>
+    </modules>
+    <frontend>
+    <layout>
+        <updates>
+            <ronisbtfeedback>
+                <file>ronisbtfeedback.xml</file>
+            </ronisbtfeedback>
+        </updates>
+    </layout>
+    <routers>
+        <ronisbtfeedback>
+            <use>standard</use>
+            <args>
+                <module>Ronisbt_Feedback</module>
+                <frontName>contactform</frontName>
+            </args>
+        </ronisbtfeedback>
+    </routers>
+    </frontend>
+
+    <global>
+        <blocks>
+            <ronisbtfeedback>
+                <class>Ronisbt_Feedback_Block</class>
+            </ronisbtfeedback>
+        </blocks>
+    </global>
+</config>

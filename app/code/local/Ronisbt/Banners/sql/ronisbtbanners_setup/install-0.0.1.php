@@ -1,7 +1,5 @@
 <?php
-
 $installer = $this;
-
 $tableNews = $installer->getTable('ronisbtbanners/banners');
 $installer->startSetup();
 $installer->getConnection()->dropTable($tableNews);
