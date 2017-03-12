@@ -17,12 +17,11 @@ class Ronisbt_Banners_Adminhtml_BannersController extends Mage_Adminhtml_Control
         $id = $this->getRequest()->getParam('banner_id');
         $bannerObject = Mage::getModel('ronisbtbanners/banners')->load($id);
         Mage::register('ronisbtbanners_banner', $bannerObject);
-        if(count($bannerObject)) {
-            Mage::registry('ronisbtbanners_banner')->setData($bannerObject);
-        }
         $this->loadLayout();
         $this->_addContent($this->getLayout()->createBlock('ronisbtbanners/adminhtml_ronisbtbanners_edit'));
         $this->renderLayout();
+        $this->getLayout()->getBlock('head')->addJs('js/editBannerAdmin.js');
+        
     }
 
     public function saveAction()
@@ -31,33 +30,35 @@ class Ronisbt_Banners_Adminhtml_BannersController extends Mage_Adminhtml_Control
             $id = $this->getRequest()->getParam('banner_id');
             $banner = Mage::getModel('ronisbtbanners/banners')->load($id);
             $newPosition = $this->getRequest()->getParam('position');
-            $oldPosition = $banner->getPosition();
-            if(!$oldPosition){
-                $list = Mage::helper('ronisbtbanners/data')->PositionList();
-                $oldPosition = count($list);
+            $oldBanner = Mage::getModel('ronisbtbanners/banners')->load((int)$newPosition, 'position');
+            if(!$banner->isObjectNew()) {
+                if($newPosition == $oldBanner->getPosition()){
+                    $oldBanner->setPosition((int)$banner->getPosition());
+                }
+                $oldBanner->save();
             }
-            $checkPosition = Mage::getModel('ronisbtbanners/banners')
-                ->getCollection()->addFieldToFilter('position', $newPosition);
-            if($checkPosition){
-                foreach ($checkPosition as $oldBanner) {
-                    $oldBanner->setPosition($oldPosition);
+            elseif ($banner->isObjectNew()) {
+                if($newPosition == $oldBanner->getPosition()){
+                    $countBanners = Mage::getModel('ronisbtbanners/banners')
+                        ->getCollection()->addFieldToSelect('banner_id')->getCount();
+                    $countBanners++;
+                    $oldBanner->setPosition($countBanners);
                     $oldBanner->save();
-                    
                 }
             }
-            $banner
-                ->setData($this->getRequest()->getParams());
-            $this->_uploadFile('image', $banner);
-            $banner
-                ->setCreated(Mage::app()->getLocale()->date())
-                ->save();
+            $banner->setData($this->getRequest()->getParams());
+            if($this->getRequest()->getParam('delete')){
+                $banner->setImage("");
+            }else{
+                $this->_uploadFile('image', $banner);
+            }
+            $banner->save();
             if(!$banner->getBannerId()) {
-                Mage::getSingleton('adminhtml/session')->addError('Cannot save the block');
+                Mage::getSingleton('adminhtml/session')->addError('Cannot save the banner');
             }
         } catch(Exception $e) {
             Mage::logException($e);
             Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
-            Mage::getSingleton('adminhtml/session')->setBlockObject($block->getData());
             return  $this->_redirect('*/*/edit',array('banner_id'=>$this->getRequest()->getParam('banner_id')));
         }
         Mage::getSingleton('adminhtml/session')->addSuccess('Banner was saved successfully!');
@@ -71,15 +72,11 @@ class Ronisbt_Banners_Adminhtml_BannersController extends Mage_Adminhtml_Control
             return false;
         }
         $file = $_FILES[$fieldName];
+        $path = Mage::getSingleton('ronisbtbanners/banners_media_config')->getBaseMediaPath();
         if(isset($file['name']) && (file_exists($file['tmp_name']))){
-            if($model->getBannerId() && !empty($model->getData($fieldName))){
-                unlink(Mage::getBaseDir('media') . DS . $model->getData($fieldName));
-            }
             try
             {
-                $path = Mage::getSingleton('ronisbtbanners/banners_media_config')->getBaseMediaPath();
-                //die(var_dump($path));
-                //$path = Mage::getBaseDir('media') . DS . 'ronisbtbanners' . DS;
+                $path = Mage::getSingleton('ronisbtbanners/banners_media_config')->getBaseMediaPath();// media/ronisbt/banner/
                 $uploader = new Varien_File_Uploader($file);
                 $uploader->setAllowedExtensions(array('jpg','png','gif','jpeg'));
                 $uploader->setAllowRenameFiles(true);
@@ -108,6 +105,19 @@ class Ronisbt_Banners_Adminhtml_BannersController extends Mage_Adminhtml_Control
 
     }
 
+    public function deleteImgAction()
+    {
+        try{
+            $id = $this->getRequest()->getParam('banner_id');
+            $banner = Mage::getModel('ronisbtbanners/banners')->load($id);
+            $banner->setImage("")->save();
+        } catch (Exception $e){
+            Mage::logException($e);
+            Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+            $this->_redirectReferer();
+        }
+        $this->_redirectReferer();
+    }
 
     public function massStatusAction()
     {
@@ -132,7 +142,7 @@ class Ronisbt_Banners_Adminhtml_BannersController extends Mage_Adminhtml_Control
     }
 
     public function massDeleteAction()
-    {
+    {   
         $banner = $this->getRequest()->getParams();
         try {
             $banners= Mage::getModel('ronisbtbanners/banners')
@@ -150,4 +160,12 @@ class Ronisbt_Banners_Adminhtml_BannersController extends Mage_Adminhtml_Control
         return $this->_redirect('*/*/');
 
     }
+    public function gridAction()
+    {
+        $this->loadLayout();
+        $this->getResponse()->setBody(
+            $this->getLayout()->createBlock('ronisbtbanners/adminhtml_ronisbtbanners_grid')->toHtml()
+        );
+    }
+
 }

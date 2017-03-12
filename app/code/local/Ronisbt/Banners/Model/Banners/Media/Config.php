@@ -1,45 +1,21 @@
 <?php
 class Ronisbt_Banners_Model_Banners_Media_Config implements Mage_Media_Model_Image_Config_Interface
 {
-    /**
-     * Filesystem directory path of product images
-     * relatively to media folder
-     *
-     * @return string
-     */
     public function getBaseMediaPathAddition()
     {
         return 'ronisbt' . DS . 'banner';
     }
 
-    /**
-     * Web-based directory path of product images
-     * relatively to media folder
-     *
-     * @return string
-     */
     public function getBaseMediaUrlAddition()
     {
         return 'ronisbt/banner';
     }
 
-    /**
-     * Filesystem directory path of temporary product images
-     * relatively to media folder
-     *
-     * @return string
-     */
     public function getBaseTmpMediaPathAddition()
     {
         return 'tmp' . DS . $this->getBaseMediaPathAddition();
     }
 
-    /**
-     * Web-based directory path of temporary product images
-     * relatively to media folder
-     *
-     * @return string
-     */
     public function getBaseTmpMediaUrlAddition()
     {
         return 'tmp/' . $this->getBaseMediaUrlAddition();
@@ -98,12 +74,6 @@ class Ronisbt_Banners_Model_Banners_Media_Config implements Mage_Media_Model_Ima
         return $this->getBaseTmpMediaUrl() . '/' . $file;
     }
 
-    /**
-     * Part of URL of temporary product images
-     * relatively to media folder
-     *
-     * @return string
-     */
     public function getTmpMediaShortUrl($file)
     {
         $file = $this->_prepareFileForUrl($file);
@@ -115,11 +85,6 @@ class Ronisbt_Banners_Model_Banners_Media_Config implements Mage_Media_Model_Ima
         return $this->getBaseTmpMediaUrlAddition() . '/' . $file;
     }
 
-    /**
-     * Part of URL of product images relatively to media folder
-     *
-     * @return string
-     */
     public function getMediaShortUrl($file)
     {
         $file = $this->_prepareFileForUrl($file);

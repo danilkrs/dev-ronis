@@ -23,7 +23,7 @@ $table = $installer->getConnection()
         'nullable'  => false,
         ))
      ->addColumn('image', Varien_Db_Ddl_Table::TYPE_TEXT, '255', array(
-        'nullable'  => false,
+        'nullable'  => true,
         ))
     ->addColumn('created', Varien_Db_Ddl_Table::TYPE_DATETIME, null, array(
         'nullable'  => false,
@@ -32,5 +32,4 @@ $table = $installer->getConnection()
         'nullable'  => false,
     ));
 $installer->getConnection()->createTable($table);
-
 $installer->endSetup();

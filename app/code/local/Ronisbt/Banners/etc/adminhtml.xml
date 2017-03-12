@@ -21,7 +21,6 @@
                 <ronisbtbanners module="ronisbtbanners">
                     <title>Homepage Banners</title>
                     <action>adminhtml/banners</action>
-                    <sort_order>1</sort_order>
                 </ronisbtbanners>
             </children>
         </cms>

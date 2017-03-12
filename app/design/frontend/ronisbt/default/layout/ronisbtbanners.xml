@@ -2,13 +2,12 @@
 <layout>
     <cms_index_index>
         <reference name="head">
-            <action method="addItem"><type>skin_js</type><name>js/flexslider/jquery-3.1.1.min.js</name><params/></action>
             <action method="addItem"><type>skin_js</type><name>js/flexslider/jquery.flexslider-min.js</name><params/></action>
-            <action method="addItem"><type>skin_js</type><name>js/flexslider/custom.js</name><params/></action>
+            <action method="addItem"><type>skin_js</type><name>js/homepage-banner.js</name><params/></action>
             <action method="addCss"><stylesheet>css/flexslider/flexslider.css</stylesheet></action>
           
         </reference>
-        <reference name="left">
+        <reference name="content">
             <block name="ronisbtbanners.list" as="ronisbtbanners" type="ronisbtbanners/list" template="ronisbt/banners/list.phtml"/>
         </reference>
     </cms_index_index>

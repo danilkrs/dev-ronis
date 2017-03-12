@@ -6,9 +6,11 @@ class Ronisbt_Banners_Block_Adminhtml_Ronisbtbanners_Grid extends Mage_Adminhtml
     public function __construct()
     {
         parent::__construct();
-        $this->setId('cmsBlockGrid');
+        $this->setId('cmsBannerGrid');
         $this->setDefaultSort('position');
         $this->setDefaultDir('ASC');
+        $this->setSaveParametersInSession(true);
+        $this->setUseAjax(true);
     }
 
     protected function _prepareCollection()
@@ -32,7 +34,8 @@ class Ronisbt_Banners_Block_Adminhtml_Ronisbtbanners_Grid extends Mage_Adminhtml
             'align'     => 'left',
             'type'      => 'options',
             'options'   => Mage::getModel('ronisbtbanners/source_status')->toArray(),
-            'index'     => 'banner_status'
+            'index'     => 'banner_status',
+            'width'     => '100'
         ));
 
         $this->addColumn('url', array(
@@ -45,7 +48,7 @@ class Ronisbt_Banners_Block_Adminhtml_Ronisbtbanners_Grid extends Mage_Adminhtml
         $this->addColumn('position', array(
             'header'    => Mage::helper('ronisbtbanners')->__('Position'),
             'index'     => 'position',
-            'type'      => 'options '
+            'type'      => 'number'
         ));
 
         $this->addColumn('image', array(
@@ -55,16 +58,23 @@ class Ronisbt_Banners_Block_Adminhtml_Ronisbtbanners_Grid extends Mage_Adminhtml
             'filter'    => false, 
             'sortable'  => false,
             'renderer'  => 'Ronisbt_Banners_Block_Adminhtml_Ronisbtbanners_Grid_Renderer_Image',
+            'width'     => '300'
         ));
 
-        $this->addColumn('created', array(
+        $this->addColumn('created_at', array(
             'header'    => Mage::helper('ronisbtbanners')->__('Created At'),
-            'index'     => 'created',
+            'index'     => 'created_at',
             'type'      => 'date',
-
+            'format'    => 'yyyy-MM-dd HH:mm:ss'
         ));
 
+        $this->addColumn('updated_at', array(
+            'header'    => Mage::helper('ronisbtbanners')->__('Updated At'),
+            'index'     => 'updated_at',
+            'type'      => 'date',
+            'format'    => 'yyyy-MM-dd HH:mm:ss'
 
+        ));
 
         return parent::_prepareColumns();
     }
@@ -105,5 +115,8 @@ class Ronisbt_Banners_Block_Adminhtml_Ronisbtbanners_Grid extends Mage_Adminhtml
     {
         return $this->getUrl('*/*/edit', array('banner_id' => $row->getId()));
     }
-
+    public function getGridUrl()
+    {
+        return $this->getUrl('*/banners/grid', array('_current'=>true));
+    }  
 }

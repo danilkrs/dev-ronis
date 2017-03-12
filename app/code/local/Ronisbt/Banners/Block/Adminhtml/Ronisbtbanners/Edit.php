@@ -28,11 +28,6 @@ class Ronisbt_Banners_Block_Adminhtml_Ronisbtbanners_Edit extends Mage_Adminhtml
         ";
     }
 
-    /**
-     * Get edit form container header text
-     *
-     * @return string
-     */
     public function getHeaderText()
     {
         if (Mage::registry('ronisbtbanners_banner')->getId()) {

@@ -8,7 +8,7 @@ extends Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Abstract
             return '';
         }
         $url =  Mage::getSingleton('ronisbtbanners/banners_media_config')->getBaseMediaUrl() .DS. $row->getImage();
-        $html = "<img src='$url' width='100' height='auto'>";
+        $html = "<img src='$url' width='300' height='auto'>";
         return $html;
     }
 }

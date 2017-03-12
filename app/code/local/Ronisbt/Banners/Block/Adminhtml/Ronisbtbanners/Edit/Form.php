@@ -3,7 +3,6 @@
 class Ronisbt_Banners_Block_Adminhtml_Ronisbtbanners_Edit_Form extends Mage_Adminhtml_Block_Widget_Form
 {
 
-    
     public function __construct()
     {
         parent::__construct();
@@ -36,7 +35,6 @@ class Ronisbt_Banners_Block_Adminhtml_Ronisbtbanners_Edit_Form extends Mage_Admi
                 'name' => 'banner_id',
             ));
         }
-
         $fieldset->addField('title', 'text', array(
             'name'      => 'title',
             'label'     => Mage::helper('ronisbtbanners')->__('Block Title'),
@@ -60,28 +58,29 @@ class Ronisbt_Banners_Block_Adminhtml_Ronisbtbanners_Edit_Form extends Mage_Admi
             'required'  => true,
         ));
 
-        $fieldset->addField('position', 'select', array(
+        $fieldset->addField('position', 'text', array(
             'label'     => Mage::helper('ronisbtbanners')->__('Position'),
             'title'     => Mage::helper('ronisbtbanners')->__('Position'),
             'name'      => 'position',
-            'required'  => 'true',
-            'options'   => $list,
+            'required'  => false,
         ));
+
         $fieldset->addType('myimage','Ronisbt_Banners_Block_Adminhtml_Ronisbtbanners_Edit_Renderer_Myimage');
+
         $fieldset->addField('image', 'myimage', array(
             'label'     => Mage::helper('ronisbtbanners')->__('Banner image'),
             'title'     => Mage::helper('ronisbtbanners')->__('Banner image'),
             'name'      => 'image',
-            'required'  => true
+            'required'  => false,
         ));
 
-        $fieldset->addField('content', 'textarea', array(
-            'name'      => 'content',
-            'label'     => Mage::helper('ronisbtbanners')->__('Content'),
-            'title'     => Mage::helper('ronisbtbanners')->__('Content'),
+        $fieldset->addField('description', 'editor', array(
+            'name'      => 'description',
+            'label'     => Mage::helper('ronisbtbanners')->__('Description'),
+            'title'     => Mage::helper('ronisbtbanners')->__('Description'),
             'style'     => 'height:36em',
             'required'  => true,
-
+            'config'    => Mage::getSingleton('cms/wysiwyg_config')->getConfig()
         ));
 
         $form->setValues($model->getData());
@@ -89,5 +88,12 @@ class Ronisbt_Banners_Block_Adminhtml_Ronisbtbanners_Edit_Form extends Mage_Admi
         $this->setForm($form);
 
         return parent::_prepareForm();
+    }
+    protected function _prepareLayout()
+    {
+        parent::_prepareLayout();
+        if (Mage::getSingleton('cms/wysiwyg_config')->isEnabled()) {
+            $this->getLayout()->getBlock('head')->setCanLoadTinyMce(true);
+        }
     }
 }

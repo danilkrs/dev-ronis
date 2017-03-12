@@ -18,15 +18,6 @@ class Ronisbt_Banners_Model_Image extends Mage_Core_Model_Abstract
     protected $_destinationSubdir;
     protected $_angle;
 
-    protected $_watermarkFile;
-    protected $_watermarkPosition;
-    protected $_watermarkWidth;
-    protected $_watermarkHeigth;
-    protected $_watermarkImageOpacity = 70;
-
-    /**
-     * @return Mage_Catalog_Model_Product_Image
-     */
     public function setWidth($width)
     {
         $this->_width = $width;
@@ -38,9 +29,6 @@ class Ronisbt_Banners_Model_Image extends Mage_Core_Model_Abstract
         return $this->_width;
     }
 
-    /**
-     * @return Mage_Catalog_Model_Product_Image
-     */
     public function setHeight($height)
     {
         $this->_height = $height;
@@ -52,79 +40,49 @@ class Ronisbt_Banners_Model_Image extends Mage_Core_Model_Abstract
         return $this->_height;
     }
 
-    /**
-     * Set image quality, values in percentage from 0 to 100
-     *
-     * @param int $quality
-     * @return Mage_Catalog_Model_Product_Image
-     */
     public function setQuality($quality)
     {
         $this->_quality = $quality;
         return $this;
     }
 
-    /**
-     * Get image quality
-     *
-     * @return int
-     */
     public function getQuality()
     {
         return $this->_quality;
     }
 
-    /**
-     * @return Mage_Catalog_Model_Product_Image
-     */
     public function setKeepAspectRatio($keep)
     {
         $this->_keepAspectRatio = (bool)$keep;
         return $this;
     }
 
-    /**
-     * @return Mage_Catalog_Model_Product_Image
-     */
     public function setKeepFrame($keep)
     {
         $this->_keepFrame = (bool)$keep;
         return $this;
     }
 
-    /**
-     * @return Mage_Catalog_Model_Product_Image
-     */
     public function setKeepTransparency($keep)
     {
         $this->_keepTransparency = (bool)$keep;
         return $this;
     }
 
-    /**
-     * @return Mage_Catalog_Model_Product_Image
-     */
     public function setConstrainOnly($flag)
     {
         $this->_constrainOnly = (bool)$flag;
         return $this;
     }
 
-    /**
-     * @return Mage_Catalog_Model_Product_Image
-     */
     public function setBackgroundColor(array $rgbArray)
     {
         $this->_backgroundColor = $rgbArray;
         return $this;
     }
 
-    /**
-     * @return Mage_Catalog_Model_Product_Image
-     */
     public function setSize($size)
     {
-        // determine width and height from string
         list($width, $height) = explode('x', strtolower($size), 2);
         foreach (array('width', 'height') as $wh) {
             $$wh  = (int)$$wh;
@@ -132,7 +90,6 @@ class Ronisbt_Banners_Model_Image extends Mage_Core_Model_Abstract
                 $$wh = null;
         }
 
-        // set sizes
         $this->setWidth($width)->setHeight($height);
 
         return $this;
@@ -140,10 +97,6 @@ class Ronisbt_Banners_Model_Image extends Mage_Core_Model_Abstract
 
     protected function _checkMemory($file = null)
     {
-//        print '$this->_getMemoryLimit() = '.$this->_getMemoryLimit();
-//        print '$this->_getMemoryUsage() = '.$this->_getMemoryUsage();
-//        print '$this->_getNeedMemoryForBaseFile() = '.$this->_getNeedMemoryForBaseFile();
-
         return $this->_getMemoryLimit() > ($this->_getMemoryUsage() + $this->_getNeedMemoryForFile($file)) || $this->_getMemoryLimit() == -1;
     }
 
@@ -192,22 +145,14 @@ class Ronisbt_Banners_Model_Image extends Mage_Core_Model_Abstract
             return 0;
         }
         if (!isset($imageInfo['channels'])) {
-            // if there is no info about this parameter lets set it for maximum
             $imageInfo['channels'] = 4;
         }
         if (!isset($imageInfo['bits'])) {
-            // if there is no info about this parameter lets set it for maximum
             $imageInfo['bits'] = 8;
         }
         return round(($imageInfo[0] * $imageInfo[1] * $imageInfo['bits'] * $imageInfo['channels'] / 8 + Pow(2, 16)) * 1.65);
     }
 
-    /**
-     * Convert array of 3 items (decimal r, g, b) to string of their hex values
-     *
-     * @param array $rgbArray
-     * @return string
-     */
     protected function _rgbToString($rgbArray)
     {
         $result = array();
@@ -222,12 +167,6 @@ class Ronisbt_Banners_Model_Image extends Mage_Core_Model_Abstract
         return implode($result);
     }
 
-    /**
-     * Set filenames for base file and new file
-     *
-     * @param string $file
-     * @return Mage_Catalog_Model_Product_Image
-     */
     public function setBaseFile($file)
     {
         $this->_isBaseFilePlaceholder = false;
@@ -326,25 +265,15 @@ class Ronisbt_Banners_Model_Image extends Mage_Core_Model_Abstract
         return $this->_newFile;
     }
 
-    /**
-     * @return Mage_Catalog_Model_Product_Image
-     */
     public function setImageProcessor($processor)
     {
         $this->_processor = $processor;
         return $this;
     }
 
-    /**
-     * @return Varien_Image
-     */
     public function getImageProcessor()
     {
         if( !$this->_processor ) {
-//            var_dump($this->_checkMemory());
-//            if (!$this->_checkMemory()) {
-//                $this->_baseFile = null;
-//            }
             $this->_processor = new Varien_Image($this->getBaseFile());
         }
         $this->_processor->keepAspectRatio($this->_keepAspectRatio);
@@ -356,10 +285,6 @@ class Ronisbt_Banners_Model_Image extends Mage_Core_Model_Abstract
         return $this->_processor;
     }
 
-    /**
-     * @see Varien_Image_Adapter_Abstract
-     * @return Mage_Catalog_Model_Product_Image
-     */
     public function resize()
     {
         if (is_null($this->getWidth()) && is_null($this->getHeight())) {
@@ -369,9 +294,6 @@ class Ronisbt_Banners_Model_Image extends Mage_Core_Model_Abstract
         return $this;
     }
 
-    /**
-     * @return Mage_Catalog_Model_Product_Image
-     */
     public function rotate($angle)
     {
         $angle = intval($angle);
@@ -379,73 +301,12 @@ class Ronisbt_Banners_Model_Image extends Mage_Core_Model_Abstract
         return $this;
     }
 
-    /**
-     * Set angle for rotating
-     *
-     * This func actually affects only the cache filename.
-     *
-     * @param int $angle
-     * @return Mage_Catalog_Model_Product_Image
-     */
     public function setAngle($angle)
     {
         $this->_angle = $angle;
         return $this;
     }
 
-    /**
-     * Add watermark to image
-     * size param in format 100x200
-     *
-     * @param string $file
-     * @param string $position
-     * @param string $size
-     * @param int $width
-     * @param int $heigth
-     * @param int $imageOpacity
-     * @return Mage_Catalog_Model_Product_Image
-     */
-    public function setWatermark($file, $position=null, $size=null, $width=null, $heigth=null, $imageOpacity=null)
-    {
-        if ($this->_isBaseFilePlaceholder)
-        {
-            return $this;
-        }
-
-        if ($file) {
-            $this->setWatermarkFile($file);
-        } else {
-            return $this;
-        }
-
-        if ($position)
-           $this->setWatermarkPosition($position);
-        if ($size)
-            $this->setWatermarkSize($size);
-        if ($width)
-            $this->setWatermarkWidth($width);
-        if ($heigth)
-            $this->setWatermarkHeigth($heigth);
-        if ($imageOpacity)
-            $this->setImageOpacity($imageOpacity);
-
-        $filePath = $this->_getWatermarkFilePath();
-
-        if($filePath) {
-            $this->getImageProcessor()
-                ->setWatermarkPosition( $this->getWatermarkPosition() )
-                ->setWatermarkImageOpacity( $this->getWatermarkImageOpacity() )
-                ->setWatermarkWidth( $this->getWatermarkWidth() )
-                ->setWatermarkHeigth( $this->getWatermarkHeigth() )
-                ->watermark($filePath);
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Mage_Catalog_Model_Product_Image
-     */
     public function saveFile()
     {
         $filename = $this->getNewFile();
@@ -454,9 +315,6 @@ class Ronisbt_Banners_Model_Image extends Mage_Core_Model_Abstract
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getUrl()
     {
         $baseDir = Mage::getBaseDir('media');
@@ -469,18 +327,12 @@ class Ronisbt_Banners_Model_Image extends Mage_Core_Model_Abstract
         $this->getImageProcessor()->display();
     }
 
-    /**
-     * @return Mage_Catalog_Model_Product_Image
-     */
     public function setDestinationSubdir($dir)
     {
         $this->_destinationSubdir = $dir;
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getDestinationSubdir()
     {
         return $this->_destinationSubdir;
@@ -489,166 +341,6 @@ class Ronisbt_Banners_Model_Image extends Mage_Core_Model_Abstract
     public function isCached()
     {
         return $this->_fileExists($this->_newFile);
-    }
-
-    /**
-     * Set watermark file name
-     *
-     * @param string $file
-     * @return Mage_Catalog_Model_Product_Image
-     */
-    public function setWatermarkFile($file)
-    {
-        $this->_watermarkFile = $file;
-        return $this;
-    }
-
-    /**
-     * Get watermark file name
-     *
-     * @return string
-     */
-    public function getWatermarkFile()
-    {
-        return $this->_watermarkFile;
-    }
-
-    /**
-     * Get relative watermark file path
-     * or false if file not found
-     *
-     * @return string | bool
-     */
-    protected function _getWatermarkFilePath()
-    {
-        $filePath = false;
-
-        if (!$file = $this->getWatermarkFile())
-        {
-            return $filePath;
-        }
-
-        $baseDir = Mage::getSingleton('ronisbtbanners/banners_media_config')->getBaseMediaPath();
-
-        if( $this->_fileExists($baseDir . '/watermark/stores/' . Mage::app()->getStore()->getId() . $file) ) {
-            $filePath = $baseDir . '/watermark/stores/' . Mage::app()->getStore()->getId() . $file;
-        } elseif ( $this->_fileExists($baseDir . '/watermark/websites/' . Mage::app()->getWebsite()->getId() . $file) ) {
-            $filePath = $baseDir . '/watermark/websites/' . Mage::app()->getWebsite()->getId() . $file;
-        } elseif ( $this->_fileExists($baseDir . '/watermark/default/' . $file) ) {
-            $filePath = $baseDir . '/watermark/default/' . $file;
-        } elseif ( $this->_fileExists($baseDir . '/watermark/' . $file) ) {
-            $filePath = $baseDir . '/watermark/' . $file;
-        } else {
-            $baseDir = Mage::getDesign()->getSkinBaseDir();
-            if( $this->_fileExists($baseDir . $file) ) {
-                $filePath = $baseDir . $file;
-            }
-        }
-
-        return $filePath;
-    }
-
-    /**
-     * Set watermark position
-     *
-     * @param string $position
-     * @return Mage_Catalog_Model_Product_Image
-     */
-    public function setWatermarkPosition($position)
-    {
-        $this->_watermarkPosition = $position;
-        return $this;
-    }
-
-    /**
-     * Get watermark position
-     *
-     * @return string
-     */
-    public function getWatermarkPosition()
-    {
-        return $this->_watermarkPosition;
-    }
-
-    /**
-     * Set watermark image opacity
-     *
-     * @param int $imageOpacity
-     * @return Mage_Catalog_Model_Product_Image
-     */
-    public function setWatermarkImageOpacity($imageOpacity)
-    {
-        $this->_watermarkImageOpacity = $imageOpacity;
-        return $this;
-    }
-
-    /**
-     * Get watermark image opacity
-     *
-     * @return int
-     */
-    public function getWatermarkImageOpacity()
-    {
-        return $this->_watermarkImageOpacity;
-    }
-
-    /**
-     * Set watermark size
-     *
-     * @param array $size
-     * @return Mage_Catalog_Model_Product_Image
-     */
-    public function setWatermarkSize($size)
-    {
-        if( is_array($size) ) {
-            $this->setWatermarkWidth($size['width'])
-                ->setWatermarkHeigth($size['heigth']);
-        }
-        return $this;
-    }
-
-    /**
-     * Set watermark width
-     *
-     * @param int $width
-     * @return Mage_Catalog_Model_Product_Image
-     */
-    public function setWatermarkWidth($width)
-    {
-        $this->_watermarkWidth = $width;
-        return $this;
-    }
-
-    /**
-     * Get watermark width
-     *
-     * @return int
-     */
-    public function getWatermarkWidth()
-    {
-        return $this->_watermarkWidth;
-    }
-
-    /**
-     * Set watermark heigth
-     *
-     * @param int $heigth
-     * @return Mage_Catalog_Model_Product_Image
-     */
-    public function setWatermarkHeigth($heigth)
-    {
-        $this->_watermarkHeigth = $heigth;
-        return $this;
-    }
-
-    /**
-     * Get watermark heigth
-     *
-     * @return string
-     */
-    public function getWatermarkHeigth()
-    {
-        return $this->_watermarkHeigth;
     }
 
     public function clearCache()
@@ -660,13 +352,6 @@ class Ronisbt_Banners_Model_Image extends Mage_Core_Model_Abstract
         Mage::helper('core/file_storage_database')->deleteFolder($directory);
     }
 
-    /**
-     * First check this file on FS
-     * If it doesn't exist - try to download it from DB
-     *
-     * @param string $filename
-     * @return bool
-     */
     protected function _fileExists($filename) {
         if (file_exists($filename)) {
             return true;

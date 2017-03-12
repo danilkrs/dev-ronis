@@ -6,24 +6,24 @@
         </Ronisbt_Banners>
     </modules>
     <frontend>
-    <layout>
-        <updates>
-            <ronisbtbanners>
-                <file>ronisbtbanners.xml</file>
-            </ronisbtbanners>
-        </updates>
-    </layout>
-    <routers>
-        <ronisbtbanners>
-            <use>standard</use>
-            <args>
-                <module>Ronisbt_Banners</module>
-                <frontName>banners</frontName>
-            </args>
-        </ronisbtbanners>
-    </routers>
+        <layout>
+            <updates>
+                <ronisbtbanners>
+                    <file>ronisbtbanners.xml</file>
+                </ronisbtbanners>
+            </updates>
+        </layout>
     </frontend>
-     <admin>
+    <adminhtml>
+        <layout>
+            <updates>
+                <ronisbtbanners module="ronisbtbanners">
+                    <file>ronisbtbanners.xml</file>
+                </ronisbtbanners>
+            </updates>
+        </layout>
+    </adminhtml>
+    <admin>
         <routers>
             <adminhtml>
                 <args>

@@ -1,0 +1,20 @@
+<?php if($this->getBanners()->getCount()): ?>
+    <div class="flexslider">
+        <ul class="slides">
+            <?php foreach($this->getBanners() as $banner):?>
+                <li>
+                    <?php if(!empty($banner->getImage())): ?>
+                    <a href="<?php echo $banner->getUrl() ?>">
+                        <img src="<?php echo Mage::helper('ronisbtbanners/image')->init($banner, 'small_image',$banner->getImage())->keepFrame(FALSE)->resize(300, 200); ?>" width="300" height="200" alt="<?php $banner->getTitle()?>" title="<?php $banner->getTitle()?>">
+                    </a>
+                    <?php endif; ?>
+                    <a href="<?php echo $banner->getUrl()?>">
+                        <p class="flex-caption">
+                            <?php echo Mage::helper('core')->escapeHtml($banner->getTitle()) ?>    
+                        </p>
+                    </a>
+                </li>
+            <?php endforeach;?>
+        </ul>
+    </div>
+<?php endif; ?>
