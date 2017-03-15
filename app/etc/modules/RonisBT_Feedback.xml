@@ -1,0 +1,8 @@
+<config>
+    <modules>
+        <Ronisbt_Feedback>
+            <active>true</active>
+            <codePool>local</codePool>
+        </Ronisbt_Feedback>
+    </modules>
+</config>
