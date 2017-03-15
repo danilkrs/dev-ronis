@@ -35,7 +35,7 @@
         </routers>
     </admin>
     <global>
-         <models>
+        <models>
             <ronisbtbanners>
                 <class>Ronisbt_Banners_Model</class>
                 <resourceModel>ronisbtbanners_resource</resourceModel>

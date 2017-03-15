@@ -1,0 +1,7 @@
+.error{
+	display: inline-block;
+	width: 30% !important;
+}
+.error-border{
+	border: 1px solid red;
+}

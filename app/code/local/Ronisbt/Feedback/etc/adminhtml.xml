@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<config>
+    <acl>
+        <resources>
+            <admin>
+                <children>
+                    <system>
+                        <children>
+                            <config>
+                                <children>
+                                    <ronisbtfeedback>
+                                        <title>Ronisbt Feedback</title>
+                                    </ronisbtfeedback>
+                                </children>
+                            </config>
+                        </children>
+                    </system>
+                    <cms>
+                        <children>
+                            <ronisbtfeedback>
+                                <title>Ronisbt Feedback</title>
+                            </ronisbtfeedback>
+                        </children>
+                    </cms>
+                </children>
+            </admin>
+        </resources>
+    </acl>
+    <menu>
+        <cms>
+            <children>
+                <ronisbtfeedback>
+                    <title>Contact Form</title>
+                    <action>adminhtml/feedback</action>
+                    <sort_order>20</sort_order>
+                </ronisbtfeedback>
+            </children>
+        </cms>
+    </menu>
+</config>

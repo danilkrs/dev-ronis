@@ -1,0 +1,98 @@
+<div id="massage" style="width: 100%">
+<?php $userInputData = Mage::getSingleton('customer/session')->getBackWithInput();?>
+<?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+</div>
+<form action="<?php echo $this->getFormAction();?>" id="contact_us" method="post">
+    <div class="fieldset">
+        <h2 class="legend">Contact Information</h2>
+        <ul class="form-list">
+            <li class="fields">
+                <div class="field">
+                    <label for="name" class="required"><em>*</em>Name</label>
+                    <div class="input-box">
+                        <input style="width: 100%" name="name" id="name" 
+                        value="<?php 
+                        if($this->getUser()->getFirstname()){
+                            echo Mage::helper('core')->escapeHtml($this->getUser()->getFirstname() . " " . $this->getUser()->getLastname()); 
+                        }else{
+                            if($userInputData['name'])
+                                echo Mage::helper('core')->escapeHtml($userInputData['name']);
+                        }?>" class="input-text 
+                        required-entry" type="text" />
+                    </div>
+                </div>
+                <div class="field">
+                    <label for="email" class="required"><em>*</em>Email</label>
+                    <div class="input-box">
+                        <input style="width: 100%" name="email" id="email" 
+                        value="<?php if($this->getUser()->getEmail()){
+                            echo Mage::helper('core')->escapeHtml($this->getUser()->getEmail()); 
+                        }else{
+                            if($userInputData['email'])
+                                echo Mage::helper('core')->escapeHtml($userInputData['email']);
+                        }?>" class="input-text 
+                        required-entry validate-email" type="text" />
+                    </div>
+                </div>
+                <div class="field">
+                    <label for="phone">Phone</label>
+                    <div class="input-box">
+                        <input style="width: 100%" name="phone" id="phone" class="input-text validate-phoneStrict" type="text"  
+                        value="<?php if($userInputData['phone']){
+                                echo Mage::helper('core')->escapeHtml($userInputData['phone']);
+                            } ?>"/>
+                    </div>
+                </div>
+                <div class="field">
+                    <div class="input-box">
+                        <label for="subject" class="required"><em>*</em>Subject</label><br>
+                        <select style="width: 100%" name="subject" class="validate-select ">
+                            <option value="" selected="">Select subject</option>
+                            <option value="1" <?php if($userInputData['subject']): ?> selected <? endif; ?>>Other</option>
+                        </select>
+                    </div>
+                </div>
+                <div id="otherSubject" class="field">
+                    <div class="input-box">
+                        <label for="other_subject" class="required"><em>*</em>Other Subject</label><br>
+                        <div class="input-box">
+                            <input style="width: 100%" name="other_subject" class="input-text required-entry" type="text" 
+                            value="<?php if($userInputData['other_subject']){
+                                echo Mage::helper('core')->escapeHtml($userInputData['other_subject']);
+                            } ?>" 
+                            />
+                        </div>
+                    </div>
+                </div>
+                <div class="field">
+                    <label for="message" class="required"><em>*</em>Message</label>
+                    <div class="input-box">
+                        <textarea style="width: 100%;" name="message" id="message" class="input-text required-entry" cols="5" rows="3"><?php if($userInputData['message']){ echo Mage::helper('core')->escapeHtml($userInputData['message']); } ?>    
+                        </textarea>
+                    </div>
+                </div>
+                <?php if(!$this->getUser()->getId()): ?>
+                    <div class="field">
+                        <div class="g-recaptcha" data-sitekey="<?php echo Mage::helper('core')->escapeHtml($this->getSiteKey()); ?>"></div>
+                    </div>
+                <?php endif; ?>
+            </li>
+            <?php if($this->getUser()->getId()): ?>
+                <input name="customer_id" type="text" class="hidden" 
+                   value="<?php echo Mage::helper('core')->escapeHtml($this->getUser()->getId()); ?>">
+            <?php endif; ?>
+        </ul>
+        <div class="buttons-set">
+            <button type="submit" class="button">
+            <span>
+                <span>
+                    Send
+                </span>
+            </span>
+        </button>
+        </div>
+    </div>
+</form>
+<script type="text/javascript">
+        var customForm = new VarienForm('contact_us');
+</script>

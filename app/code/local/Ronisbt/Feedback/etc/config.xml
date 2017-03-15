@@ -2,33 +2,87 @@
 <config>
     <modules>
         <Ronisbt_Feedback>
-            <version>0.0.1</version>
+            <version>0.0.2</version>
         </Ronisbt_Feedback>
     </modules>
     <frontend>
-    <layout>
-        <updates>
+        <layout>
+            <updates>
+                <ronisbtfeedback>
+                    <file>ronisbtfeedback.xml</file>
+                </ronisbtfeedback>
+            </updates>
+        </layout>
+        <routers>
             <ronisbtfeedback>
-                <file>ronisbtfeedback.xml</file>
+                <use>standard</use>
+                <args>
+                    <module>Ronisbt_Feedback</module>
+                    <frontName>contactform</frontName>
+                </args>
             </ronisbtfeedback>
-        </updates>
-    </layout>
-    <routers>
-        <ronisbtfeedback>
-            <use>standard</use>
-            <args>
-                <module>Ronisbt_Feedback</module>
-                <frontName>contactform</frontName>
-            </args>
-        </ronisbtfeedback>
-    </routers>
+        </routers>
     </frontend>
-
+    <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <ronisbtfeedback after="Mage_Adminhtml">Ronisbt_Feedback_Adminhtml</ronisbtfeedback>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
     <global>
+        <models>
+            <ronisbtfeedback>
+                <class>Ronisbt_Feedback_Model</class>
+                <resourceModel>ronisbtfeedback_resource</resourceModel>
+            </ronisbtfeedback>
+            <ronisbtfeedback_resource>
+                <class>Ronisbt_Feedback_Model_Resource</class>
+                <entities>
+                    <feedback>
+                        <table>ronisbt_feedback</table>
+                    </feedback>
+                </entities>
+            </ronisbtfeedback_resource>
+        </models>
+        <resources>
+            <ronisbtfeedback_setup>
+                <setup>
+                    <module>Ronisbt_Feedback</module>
+                </setup>
+            </ronisbtfeedback_setup>
+        </resources>
         <blocks>
             <ronisbtfeedback>
                 <class>Ronisbt_Feedback_Block</class>
             </ronisbtfeedback>
         </blocks>
+         <helpers>
+            <ronisbtfeedback>
+                <class>Ronisbt_Feedback_Helper</class>
+            </ronisbtfeedback>
+        </helpers>
     </global>
+    <default>
+        <captcha>
+            <frontend>
+                <areas>
+                    <ronisbtfeedback>
+                        <label>Contact Us</label>
+                    </ronisbtfeedback>
+                </areas>
+            </frontend>
+        </captcha>
+        <admin>
+            <captcha>
+                <always_for>
+                    <ronisbtfeedback>1</ronisbtfeedback>
+                </always_for>
+            </captcha>
+        </admin>
+    </default>
 </config>

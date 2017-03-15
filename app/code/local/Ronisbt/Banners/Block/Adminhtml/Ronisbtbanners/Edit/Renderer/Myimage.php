@@ -30,6 +30,7 @@ class Ronisbt_Banners_Block_Adminhtml_Ronisbtbanners_Edit_Renderer_Myimage exten
         $html .= $this->_getDeleteCheckbox();
         return $html;
     }
+    
     protected function _getDeleteCheckbox()
     {
         $html = '';

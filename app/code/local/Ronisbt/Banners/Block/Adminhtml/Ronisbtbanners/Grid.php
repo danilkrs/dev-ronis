@@ -66,6 +66,7 @@ class Ronisbt_Banners_Block_Adminhtml_Ronisbtbanners_Grid extends Mage_Adminhtml
             'index'     => 'created_at',
             'type'      => 'date',
             'format'    => 'yyyy-MM-dd HH:mm:ss'
+
         ));
 
         $this->addColumn('updated_at', array(
@@ -115,6 +116,7 @@ class Ronisbt_Banners_Block_Adminhtml_Ronisbtbanners_Grid extends Mage_Adminhtml
     {
         return $this->getUrl('*/*/edit', array('banner_id' => $row->getId()));
     }
+    
     public function getGridUrl()
     {
         return $this->getUrl('*/banners/grid', array('_current'=>true));
